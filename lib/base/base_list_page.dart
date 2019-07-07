@@ -17,20 +17,20 @@ abstract class BaseListPageState<P extends BaseListPage, D>
   Widget buildBody() {
     return ListView.builder(
       itemCount: _dataList?.length ?? 0,
-      itemBuilder: (context, position) => _getItemWidget(_dataList[position]),
+      itemBuilder: (context, position) => _getItemWidget(position),
     );
   }
 
   List<D> generateDataList();
 
-  Widget _getItemWidget(D data) {
+  Widget _getItemWidget(int position) {
     return GestureDetector(
-      child: buildItemWidget(data),
-      onTap: () => onItemClicked(data),
+      child: buildItemWidget(_dataList[position], position),
+      onTap: () => onItemClicked(_dataList[position], position),
     );
   }
 
-  Widget buildItemWidget(D data);
+  Widget buildItemWidget(D data, int position);
 
-  onItemClicked(D data){}
+  onItemClicked(D data, int position){}
 }
