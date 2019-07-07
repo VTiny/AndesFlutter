@@ -8,6 +8,8 @@ abstract class BasePageState<P extends BasePage> extends State<P> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: true,
+      resizeToAvoidBottomInset: true,
       appBar: buildAppBar(),
       body: buildBody(),
     );
@@ -15,9 +17,9 @@ abstract class BasePageState<P extends BasePage> extends State<P> {
 
   buildAppBar() {
     return AppBar(title: Text(getTitle(),
-        style: TextStyle(fontSize: 18.0, color: Colors.black38)),
+        style: TextStyle(fontSize: 18.0, color: Colors.white)),
         leading: IconButton(icon: Icon(Icons.arrow_back),
-            color: Colors.black38,
+            color: Colors.white,
             onPressed: () => Navigator.pop(context)));
   }
 

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 /// Simple Line Chart
 /// https://google.github.io/charts/flutter/example/line_charts/simple_full.png
 class SimpleLineChart extends StatelessWidget {
+  static final String name = 'SimpleLineChart';
   final List<charts.Series> seriesList;
   final bool animate;
 
@@ -47,6 +48,7 @@ class SimpleLineChart extends StatelessWidget {
 /// Points Line Chart
 /// https://google.github.io/charts/flutter/example/line_charts/points_full.png
 class PointsLineChart extends StatelessWidget {
+  static final String name = 'PointsLineChart';
   final List<charts.Series> seriesList;
   final bool animate;
 
@@ -92,6 +94,7 @@ class PointsLineChart extends StatelessWidget {
 /// Stacked Area Line Chart
 /// https://google.github.io/charts/flutter/example/line_charts/stacked_area_full.png
 class StackedAreaLineChart extends StatelessWidget {
+  static final String name = 'StackedAreaLineChart';
   final List<charts.Series> seriesList;
   final bool animate;
 
@@ -166,6 +169,7 @@ class StackedAreaLineChart extends StatelessWidget {
 /// Stacked Area Custom Color Line Chart
 /// https://google.github.io/charts/flutter/example/line_charts/stacked_area_custom_color_full.png
 class StackedAreaCustomColorLineChart extends StatelessWidget {
+  static final String name = 'StackedAreaCustomColorLineChart';
   final List<charts.Series> seriesList;
   final bool animate;
 
@@ -251,6 +255,7 @@ class StackedAreaCustomColorLineChart extends StatelessWidget {
 /// Area And Line Line Chart
 /// https://google.github.io/charts/flutter/example/line_charts/area_and_line_full.png
 class AreaAndLineChart extends StatelessWidget {
+  static final String name = 'AreaAndLineChart';
   final List<charts.Series> seriesList;
   final bool animate;
 
@@ -318,6 +323,7 @@ class AreaAndLineChart extends StatelessWidget {
 /// Simple Nulls Line Chart
 /// https://google.github.io/charts/flutter/example/line_charts/simple_nulls_full.png
 class SimpleNullsLineChart extends StatelessWidget {
+  static final String name = 'SimpleNullsLineChart';
   final List<charts.Series> seriesList;
   final bool animate;
 
@@ -398,6 +404,8 @@ class SimpleNullsLineChart extends StatelessWidget {
 /// Stacked Area Nulls Line Chart
 /// https://google.github.io/charts/flutter/example/line_charts/stacked_area_nulls_full.png
 class StackedAreaNullsLineChart extends StatelessWidget {
+  static final String name = 'StackedAreaNullsLineChart';
+
   final List<charts.Series> seriesList;
   final bool animate;
 
@@ -481,6 +489,7 @@ class StackedAreaNullsLineChart extends StatelessWidget {
 /// Dash Pattern Line Chart
 /// https://google.github.io/charts/flutter/example/line_charts/dash_pattern_full.png
 class DashPatternLineChart extends StatelessWidget {
+  static final String name = 'DashPatternLineChart';
   final List<charts.Series> seriesList;
   final bool animate;
 
@@ -554,6 +563,7 @@ class DashPatternLineChart extends StatelessWidget {
 /// Segments Line Chart
 /// https://google.github.io/charts/flutter/example/line_charts/segments_full.png
 class SegmentsLineChart extends StatelessWidget {
+  static final String name = 'SegmentsLineChart';
   final List<charts.Series> seriesList;
   final bool animate;
 
@@ -658,6 +668,7 @@ class SegmentsLineChart extends StatelessWidget {
 /// Line Annotation Line Chart
 /// https://google.github.io/charts/flutter/example/line_charts/line_annotation_full.png
 class LineLineAnnotationChart extends StatelessWidget {
+  static final String name = 'LineLineAnnotationChart';
   final List<charts.Series> seriesList;
   final bool animate;
 
@@ -723,6 +734,7 @@ class LineLineAnnotationChart extends StatelessWidget {
 /// Range Annotation Line Chart
 /// https://google.github.io/charts/flutter/example/line_charts/range_annotation_full.png
 class LineRangeAnnotationChart extends StatelessWidget {
+  static final String name = 'LineRangeAnnotationChart';
   final List<charts.Series> seriesList;
   final bool animate;
 
@@ -788,6 +800,7 @@ class LineRangeAnnotationChart extends StatelessWidget {
 /// Range Annotation Margin Line Chart
 /// https://google.github.io/charts/flutter/example/line_charts/range_annotation_margin_full.png
 class LineRangeAnnotationMarginChart extends StatelessWidget {
+  static final String name = 'LineRangeAnnotationMarginChart';
   final List<charts.Series> seriesList;
   final bool animate;
 
