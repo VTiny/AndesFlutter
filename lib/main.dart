@@ -59,7 +59,7 @@ class HomePageState extends BaseListPageState<HomePage, String> {
         RouteUtil.pushPage(context, ROUTE_NAME_NESTED);
         break;
       case 1:
-        RouteUtil.pushPage(context, ROUTE_NAME_MONET);
+        RouteUtil.pushPage(context, ROUTE_NAME_LINE_CHART_MONET);
         break;
     }
   }

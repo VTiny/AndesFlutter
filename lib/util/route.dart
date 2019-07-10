@@ -1,10 +1,10 @@
 import 'package:andes_flutter/base/base_page.dart';
 import 'package:andes_flutter/biz/nested_scroll.dart';
-import 'package:andes_flutter/monet/monet.dart';
+import 'package:andes_flutter/monet/monet_charts.dart';
 import 'package:flutter/widgets.dart';
 
 const ROUTE_NAME_NESTED = 'route_name_nested';
-const ROUTE_NAME_MONET = 'route_name_monet';
+const ROUTE_NAME_LINE_CHART_MONET = 'route_name_line_chart_monet';
 
 class RouteUtil {
   static pushPage(BuildContext context, String route) {
@@ -19,8 +19,8 @@ class RouteUtil {
       case ROUTE_NAME_NESTED:
         widget = NestedScrollPage();
         break;
-      case ROUTE_NAME_MONET:
-        widget = MonetPage();
+      case ROUTE_NAME_LINE_CHART_MONET:
+        widget = LineChartMonetPage();
         break;
     }
     return (context) => widget;

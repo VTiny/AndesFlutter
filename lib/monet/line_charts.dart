@@ -1,5 +1,11 @@
+import 'dart:math';
+
+import 'package:andes_flutter/monet/select_all_factory.dart';
+import 'package:charts_common/common.dart' as common;
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:charts_flutter/flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 /// Simple Line Chart
 /// https://google.github.io/charts/flutter/example/line_charts/simple_full.png
@@ -178,6 +184,422 @@ class StackedAreaCustomColorLineChart extends StatelessWidget {
   /// Creates a [LineChart] with sample data and no transition.
   factory StackedAreaCustomColorLineChart.withSampleData() {
     return new StackedAreaCustomColorLineChart(
+      _createSampleData(),
+      // Disable animations for image tests.
+      animate: false,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new charts.LineChart(seriesList,
+        defaultRenderer:
+            new charts.LineRendererConfig(includeArea: true, stacked: true),
+        animate: animate);
+  }
+
+  /// Create one series with sample hard coded data.
+  static List<charts.Series<LinearSales, int>> _createSampleData() {
+    final myFakeDesktopData = [
+      new LinearSales(0, 5),
+      new LinearSales(1, 25),
+      new LinearSales(2, 100),
+      new LinearSales(3, 75),
+    ];
+
+    var myFakeTabletData = [
+      new LinearSales(0, 10),
+      new LinearSales(1, 50),
+      new LinearSales(2, 200),
+      new LinearSales(3, 150),
+    ];
+
+    var myFakeMobileData = [
+      new LinearSales(0, 15),
+      new LinearSales(1, 75),
+      new LinearSales(2, 300),
+      new LinearSales(3, 225),
+    ];
+
+    return [
+      new charts.Series<LinearSales, int>(
+        id: 'Desktop',
+        // colorFn specifies that the line will be blue.
+        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+        // areaColorFn specifies that the area skirt will be light blue.
+        areaColorFn: (_, __) =>
+            charts.MaterialPalette.blue.shadeDefault.lighter,
+        domainFn: (LinearSales sales, _) => sales.year,
+        measureFn: (LinearSales sales, _) => sales.sales,
+        data: myFakeDesktopData,
+      ),
+      new charts.Series<LinearSales, int>(
+        id: 'Tablet',
+        // colorFn specifies that the line will be red.
+        colorFn: (_, __) => charts.MaterialPalette.red.shadeDefault,
+        // areaColorFn specifies that the area skirt will be light red.
+        areaColorFn: (_, __) => charts.MaterialPalette.red.shadeDefault.lighter,
+        domainFn: (LinearSales sales, _) => sales.year,
+        measureFn: (LinearSales sales, _) => sales.sales,
+        data: myFakeTabletData,
+      ),
+      new charts.Series<LinearSales, int>(
+        id: 'Mobile',
+        // colorFn specifies that the line will be green.
+        colorFn: (_, __) => charts.MaterialPalette.green.shadeDefault,
+        // areaColorFn specifies that the area skirt will be light green.
+        areaColorFn: (_, __) =>
+            charts.MaterialPalette.green.shadeDefault.lighter,
+        domainFn: (LinearSales sales, _) => sales.year,
+        measureFn: (LinearSales sales, _) => sales.sales,
+        data: myFakeMobileData,
+      ),
+    ];
+  }
+}
+
+class HeatingLineDemoChart extends StatelessWidget {
+  static final String name = 'HeatingLineDemoChart';
+  final List<charts.Series> seriesList;
+  final bool animate;
+
+  HeatingLineDemoChart(this.seriesList, {this.animate});
+
+  /// Creates a [LineChart] with sample data and no transition.
+  factory HeatingLineDemoChart.withSampleData() {
+    return new HeatingLineDemoChart(
+      _createSampleData(),
+      animate: false,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return charts.LineChart(
+      seriesList,
+      defaultRenderer: charts.LineRendererConfig(
+          layoutPaintOrder: LayoutViewPaintOrder.point,
+          includeArea: true,
+          includeLine: true,
+          stacked: false),
+      animate: true,
+      primaryMeasureAxis:
+          charts.NumericAxisSpec(renderSpec: charts.NoneRenderSpec()),
+      secondaryMeasureAxis:
+          charts.NumericAxisSpec(renderSpec: charts.NoneRenderSpec()),
+      domainAxis: charts.NumericAxisSpec(renderSpec: charts.NoneRenderSpec()),
+      defaultInteractions: false,
+      behaviors: List<ChartBehavior>()
+        ..add(LinePointHighlighter(
+                selectionModelType: common.SelectionModelType.info,
+                showVerticalFollowLine:
+                    common.LinePointHighlighterFollowLineType.all,
+                drawFollowLinesAcrossChart: false))
+//        ..add(Select)
+//        ..add(charts.Slider(
+//            initialDomainValue: 1.0, onChangeCallback: _onSliderChange))
+//        ..add(SlidingViewport(common.SelectionModelType.info))
+//        ..add(charts.RangeAnnotation([
+//          new charts.LineAnnotationSegment(
+//              13, charts.RangeAnnotationAxisType.measure,
+//              labelDirection: charts.AnnotationLabelDirection.vertical,
+//              startLabel: '')
+//        ]))
+        ..add(SelectAll(
+            eventTrigger: common.SelectionTrigger.pressHold,
+            selectionModelType: common.SelectionModelType.info,
+            selectClosestSeries: false)),
+    );
+  }
+
+  /// Create one series with sample hard coded data.
+  static List<charts.Series<LinearSales, int>> _createSampleData() {
+    final myFakeDesktopData = [
+      new LinearSales(0, 5),
+      new LinearSales(1, 20),
+      new LinearSales(2, 50),
+      new LinearSales(3, 40),
+      new LinearSales(4, 75),
+      new LinearSales(5, 100),
+      new LinearSales(6, 90),
+      new LinearSales(7, 20),
+      new LinearSales(8, 50),
+      new LinearSales(9, 10),
+    ];
+
+    return [
+      new charts.Series<LinearSales, int>(
+        id: 'Desktop',
+        // colorFn specifies that the line will be blue.
+        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+        // areaColorFn specifies that the area skirt will be light blue.
+        areaColorFn: (_, __) =>
+            charts.MaterialPalette.blue.shadeDefault.lighter,
+        domainFn: (LinearSales sales, _) => sales.year,
+        measureFn: (LinearSales sales, _) => sales.sales,
+        data: myFakeDesktopData,
+      ),
+    ];
+  }
+}
+
+class SliderLineChart extends StatefulWidget {
+  static final String name = 'SliderLineChart';
+  final List<charts.Series> seriesList;
+  final bool animate;
+
+  SliderLineChart(this.seriesList, {this.animate});
+
+  /// Creates a [LineChart] with sample data and no transition.
+  factory SliderLineChart.withSampleData() {
+    return new SliderLineChart(
+      _createSampleData(),
+      // Disable animations for image tests.
+      animate: false,
+    );
+  }
+
+  // We need a Stateful widget to build the selection details with the current
+  // selection as the state.
+  @override
+  State<StatefulWidget> createState() => new _SliderCallbackState();
+
+  /// Create one series with sample hard coded data.
+  static List<charts.Series<LinearSales, int>> _createSampleData() {
+    final data = [
+      new LinearSales(0, 5),
+      new LinearSales(1, 25),
+      new LinearSales(2, 100),
+      new LinearSales(3, 75),
+    ];
+
+    return [
+      new charts.Series<LinearSales, int>(
+        id: 'Sales',
+        domainFn: (LinearSales sales, _) => sales.year,
+        measureFn: (LinearSales sales, _) => sales.sales,
+        data: data,
+      )
+    ];
+  }
+}
+
+class _SliderCallbackState extends State<SliderLineChart> {
+  num _sliderDomainValue;
+  String _sliderDragState;
+  Point<int> _sliderPosition;
+
+  // Handles callbacks when the user drags the slider.
+  _onSliderChange(Point<int> point, dynamic domain, String roleId,
+      charts.SliderListenerDragState dragState) {
+    // Request a build.
+    void rebuild(_) {
+      setState(() {
+        _sliderDomainValue = (domain * 10).round() / 10;
+        _sliderDragState = dragState.toString();
+        _sliderPosition = point;
+      });
+    }
+
+    SchedulerBinding.instance.addPostFrameCallback(rebuild);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // The children consist of a Chart and Text widgets below to hold the info.
+    final children = <Widget>[
+      new SizedBox(
+          height: 150.0,
+          child: new charts.LineChart(
+            widget.seriesList,
+            animate: widget.animate,
+            // Configures a [Slider] behavior.
+            //
+            // Available options include:
+            //
+            // [eventTrigger] configures the type of mouse gesture that controls
+            // the slider.
+            //
+            // [handleRenderer] draws a handle for the slider. Defaults to a
+            // rectangle.
+            //
+            // [initialDomainValue] sets the initial position of the slider in
+            // domain units. The default is the center of the chart.
+            //
+            // [onChangeCallback] will be called when the position of the slider
+            // changes during a drag event.
+            //
+            // [roleId] optional custom role ID for the slider. This can be used to
+            // allow multiple [Slider] behaviors on the same chart. Normally, there can
+            // only be one slider (per event trigger type) on a chart. This setting
+            // allows for configuring multiple independent sliders.
+            //
+            // [snapToDatum] configures the slider to snap snap onto the nearest
+            // datum (by domain distance) when dragged. By default, the slider
+            // can be positioned anywhere along the domain axis.
+            //
+            // [style] takes in a [SliderStyle] configuration object, and
+            // configures the color and sizing of the slider line and handle.
+            behaviors: [
+              new charts.Slider(
+                  snapToDatum: true,
+                  eventTrigger: SelectionTrigger.pressHold,
+                  initialDomainValue: 1.0,
+                  onChangeCallback: _onSliderChange),
+            ],
+          )),
+    ];
+
+    // If there is a slider change event, then include the details.
+    if (_sliderDomainValue != null) {
+      children.add(new Padding(
+          padding: new EdgeInsets.only(top: 5.0),
+          child: new Text('Slider domain value: ${_sliderDomainValue}')));
+    }
+    if (_sliderPosition != null) {
+      children.add(new Padding(
+          padding: new EdgeInsets.only(top: 5.0),
+          child: new Text(
+              'Slider position: ${_sliderPosition.x}, ${_sliderPosition.y}')));
+    }
+    if (_sliderDragState != null) {
+      children.add(new Padding(
+          padding: new EdgeInsets.only(top: 5.0),
+          child: new Text('Slider drag state: ${_sliderDragState}')));
+    }
+
+    return new Column(children: children);
+  }
+}
+
+class SelectionCallbackExample extends StatefulWidget {
+  static final String name = 'SelectionCallbackExample';
+  final List<charts.Series> seriesList;
+  final bool animate;
+
+  SelectionCallbackExample(this.seriesList, {this.animate});
+
+  /// Creates a [charts.TimeSeriesChart] with sample data and no transition.
+  factory SelectionCallbackExample.withSampleData() {
+    return new SelectionCallbackExample(
+      _createSampleData(),
+      // Disable animations for image tests.
+      animate: false,
+    );
+  }
+
+  // We need a Stateful widget to build the selection details with the current
+  // selection as the state.
+  @override
+  State<StatefulWidget> createState() => new _SelectionCallbackState();
+
+  /// Create one series with sample hard coded data.
+  static List<charts.Series<TimeSeriesSales, DateTime>> _createSampleData() {
+    final us_data = [
+      new TimeSeriesSales(new DateTime(2017, 9, 19), 5),
+      new TimeSeriesSales(new DateTime(2017, 9, 26), 25),
+      new TimeSeriesSales(new DateTime(2017, 10, 3), 78),
+      new TimeSeriesSales(new DateTime(2017, 10, 10), 54),
+    ];
+
+    final uk_data = [
+      new TimeSeriesSales(new DateTime(2017, 9, 19), 15),
+      new TimeSeriesSales(new DateTime(2017, 9, 26), 33),
+      new TimeSeriesSales(new DateTime(2017, 10, 3), 68),
+      new TimeSeriesSales(new DateTime(2017, 10, 10), 48),
+    ];
+
+    return [
+      new charts.Series<TimeSeriesSales, DateTime>(
+        id: 'US Sales',
+        domainFn: (TimeSeriesSales sales, _) => sales.time,
+        measureFn: (TimeSeriesSales sales, _) => sales.sales,
+        data: us_data,
+      ),
+      new charts.Series<TimeSeriesSales, DateTime>(
+        id: 'UK Sales',
+        domainFn: (TimeSeriesSales sales, _) => sales.time,
+        measureFn: (TimeSeriesSales sales, _) => sales.sales,
+        data: uk_data,
+      )
+    ];
+  }
+}
+
+class _SelectionCallbackState extends State<SelectionCallbackExample> {
+  DateTime _time;
+  Map<String, num> _measures;
+
+  // Listens to the underlying selection changes, and updates the information
+  // relevant to building the primitive legend like information under the
+  // chart.
+  _onSelectionChanged(charts.SelectionModel model) {
+    final selectedDatum = model.selectedDatum;
+
+    DateTime time;
+    final measures = <String, num>{};
+
+    // We get the model that updated with a list of [SeriesDatum] which is
+    // simply a pair of series & datum.
+    //
+    // Walk the selection updating the measures map, storing off the sales and
+    // series name for each selection point.
+    if (selectedDatum.isNotEmpty) {
+      time = selectedDatum.first.datum.time;
+      selectedDatum.forEach((charts.SeriesDatum datumPair) {
+        measures[datumPair.series.displayName] = datumPair.datum.sales;
+      });
+    }
+
+    // Request a build.
+    setState(() {
+      _time = time;
+      _measures = measures;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // The children consist of a Chart and Text widgets below to hold the info.
+    final children = <Widget>[
+      new SizedBox(
+          height: 150.0,
+          child: new charts.TimeSeriesChart(
+            widget.seriesList,
+            animate: widget.animate,
+            selectionModels: [
+              new charts.SelectionModelConfig(
+                type: charts.SelectionModelType.info,
+                changedListener: _onSelectionChanged,
+              )
+            ],
+          )),
+    ];
+
+    // If there is a selection, then include the details.
+    if (_time != null) {
+      children.add(new Padding(
+          padding: new EdgeInsets.only(top: 5.0),
+          child: new Text(_time.toString())));
+    }
+    _measures?.forEach((String series, num value) {
+      children.add(new Text('${series}: ${value}'));
+    });
+
+    return new Column(children: children);
+  }
+}
+
+class StackedAreaCustomColorCurvingLineChart extends StatelessWidget {
+  static final String name = 'StackedAreaCustomColorCurvingLineChart';
+  final List<charts.Series> seriesList;
+  final bool animate;
+
+  StackedAreaCustomColorCurvingLineChart(this.seriesList, {this.animate});
+
+  /// Creates a [LineChart] with sample data and no transition.
+  factory StackedAreaCustomColorCurvingLineChart.withSampleData() {
+    return new StackedAreaCustomColorCurvingLineChart(
       _createSampleData(),
       // Disable animations for image tests.
       animate: false,
@@ -887,4 +1309,11 @@ class LinearSales {
   final double strokeWidthPx;
 
   LinearSales(this.year, this.sales, [this.dashPattern, this.strokeWidthPx]);
+}
+
+class TimeSeriesSales {
+  final DateTime time;
+  final int sales;
+
+  TimeSeriesSales(this.time, this.sales);
 }

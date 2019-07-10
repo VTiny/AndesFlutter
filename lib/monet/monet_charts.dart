@@ -3,14 +3,14 @@ import 'package:andes_flutter/monet/line_charts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class MonetPage extends BasePage {
+class LineChartMonetPage extends BasePage {
   @override
   State createState() {
-    return MonetPageState();
+    return LineChartMonetPageState();
   }
 }
 
-class MonetPageState extends BasePageState<MonetPage> {
+class LineChartMonetPageState extends BasePageState<LineChartMonetPage> {
   Widget _chartContent;
   List<String> _chartNameList;
 
@@ -19,6 +19,9 @@ class MonetPageState extends BasePageState<MonetPage> {
     super.initState();
     _chartContent = Icon(Icons.show_chart);
     _chartNameList = [
+      HeatingLineDemoChart.name,
+      SliderLineChart.name,
+      SelectionCallbackExample.name,
       SimpleLineChart.name,
       PointsLineChart.name,
       StackedAreaLineChart.name,
@@ -42,7 +45,7 @@ class MonetPageState extends BasePageState<MonetPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
-            height: 200,
+            height: 250,
             width: double.infinity,
             child: _chartContent,
             color: Colors.blue[100],
@@ -70,7 +73,7 @@ class MonetPageState extends BasePageState<MonetPage> {
 
   @override
   String getTitle() {
-    return 'Monet';
+    return 'Line chart Monet';
   }
 
   Widget _getChart(String name) {
@@ -82,6 +85,10 @@ class MonetPageState extends BasePageState<MonetPage> {
       return StackedAreaLineChart.withSampleData();
     } else if (name == StackedAreaCustomColorLineChart.name) {
       return StackedAreaCustomColorLineChart.withSampleData();
+    } else if (name == HeatingLineDemoChart.name) {
+      return HeatingLineDemoChart.withSampleData();
+    } else if (name == SliderLineChart.name) {
+      return SliderLineChart.withSampleData();
     } else if (name == AreaAndLineChart.name) {
       return AreaAndLineChart.withSampleData();
     } else if (name == SimpleNullsLineChart.name) {
@@ -98,8 +105,9 @@ class MonetPageState extends BasePageState<MonetPage> {
       return LineRangeAnnotationChart.withSampleData();
     } else if (name == LineRangeAnnotationMarginChart.name) {
       return LineRangeAnnotationMarginChart.withSampleData();
-    } else {
-      return null;
+    } else if (name == SelectionCallbackExample.name) {
+      return SelectionCallbackExample.withSampleData();
     }
+    return null;
   }
 }
