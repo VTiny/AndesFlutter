@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:andes_flutter/monet/select_all_factory.dart';
 import 'package:charts_common/common.dart' as common;
+import 'package:charts_common/src/chart/line/line_renderer.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:charts_flutter/flutter.dart';
 import 'package:flutter/material.dart';
@@ -258,7 +258,7 @@ class StackedAreaCustomColorLineChart extends StatelessWidget {
   }
 }
 
-class HeatingLineDemoChart extends StatelessWidget {
+class HeatingLineDemoChart extends StatefulWidget {
   static final String name = 'HeatingLineDemoChart';
   final List<charts.Series> seriesList;
   final bool animate;
@@ -274,42 +274,8 @@ class HeatingLineDemoChart extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return charts.LineChart(
-      seriesList,
-      defaultRenderer: charts.LineRendererConfig(
-          layoutPaintOrder: LayoutViewPaintOrder.point,
-          includeArea: true,
-          includeLine: true,
-          stacked: false),
-      animate: true,
-      primaryMeasureAxis:
-          charts.NumericAxisSpec(renderSpec: charts.NoneRenderSpec()),
-      secondaryMeasureAxis:
-          charts.NumericAxisSpec(renderSpec: charts.NoneRenderSpec()),
-      domainAxis: charts.NumericAxisSpec(renderSpec: charts.NoneRenderSpec()),
-      defaultInteractions: false,
-      behaviors: List<ChartBehavior>()
-        ..add(LinePointHighlighter(
-                selectionModelType: common.SelectionModelType.info,
-                showVerticalFollowLine:
-                    common.LinePointHighlighterFollowLineType.all,
-                drawFollowLinesAcrossChart: false))
-//        ..add(Select)
-//        ..add(charts.Slider(
-//            initialDomainValue: 1.0, onChangeCallback: _onSliderChange))
-//        ..add(SlidingViewport(common.SelectionModelType.info))
-//        ..add(charts.RangeAnnotation([
-//          new charts.LineAnnotationSegment(
-//              13, charts.RangeAnnotationAxisType.measure,
-//              labelDirection: charts.AnnotationLabelDirection.vertical,
-//              startLabel: '')
-//        ]))
-        ..add(SelectAll(
-            eventTrigger: common.SelectionTrigger.pressHold,
-            selectionModelType: common.SelectionModelType.info,
-            selectClosestSeries: false)),
-    );
+  State<StatefulWidget> createState() {
+    return HeatingLineDemoChartState();
   }
 
   /// Create one series with sample hard coded data.
@@ -319,9 +285,9 @@ class HeatingLineDemoChart extends StatelessWidget {
       new LinearSales(1, 20),
       new LinearSales(2, 50),
       new LinearSales(3, 40),
-      new LinearSales(4, 75),
+      new LinearSales(4, 80),
       new LinearSales(5, 100),
-      new LinearSales(6, 90),
+      new LinearSales(6, 70),
       new LinearSales(7, 20),
       new LinearSales(8, 50),
       new LinearSales(9, 10),
@@ -340,6 +306,57 @@ class HeatingLineDemoChart extends StatelessWidget {
         data: myFakeDesktopData,
       ),
     ];
+  }
+}
+
+class HeatingLineDemoChartState extends State<HeatingLineDemoChart> {
+
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onHorizontalDragUpdate: (DragUpdateDetails details){
+      },
+      child: charts.LineChart(widget.seriesList,
+          defaultRenderer: charts.LineRendererConfig(
+              layoutPaintOrder: LayoutViewPaintOrder.point,
+//              includeArea: true,
+              includeLine: true,
+              stacked: false),
+          animate: true,
+          primaryMeasureAxis:
+              charts.NumericAxisSpec(renderSpec: charts.NoneRenderSpec()),
+          secondaryMeasureAxis:
+              charts.NumericAxisSpec(renderSpec: charts.NoneRenderSpec()),
+          domainAxis: charts.NumericAxisSpec(renderSpec: charts.NoneRenderSpec()),
+          defaultInteractions: false,
+          behaviors: List<ChartBehavior>()
+            ..add(LinePointHighlighter(
+                selectionModelType: common.SelectionModelType.info,
+                showVerticalFollowLine:
+                    common.LinePointHighlighterFollowLineType.all,
+                drawFollowLinesAcrossChart: false))
+//        ..add(Select)
+//        ..add(charts.Slider(
+//            initialDomainValue: 1.0, onChangeCallback: _onSliderChange))
+//        ..add(SlidingViewport(common.SelectionModelType.info))
+//        ..add(charts.RangeAnnotation([
+//          new charts.LineAnnotationSegment(
+//              13, charts.RangeAnnotationAxisType.measure,
+//              labelDirection: charts.AnnotationLabelDirection.vertical,
+//              startLabel: '')
+//        ]))
+//        ..add(SelectAll(
+//            eventTrigger: common.SelectionTrigger.pressHold,
+//            selectionModelType: common.SelectionModelType.info,
+//            selectClosestSeries: false)),
+          ),
+    );
   }
 }
 
@@ -413,33 +430,6 @@ class _SliderCallbackState extends State<SliderLineChart> {
           child: new charts.LineChart(
             widget.seriesList,
             animate: widget.animate,
-            // Configures a [Slider] behavior.
-            //
-            // Available options include:
-            //
-            // [eventTrigger] configures the type of mouse gesture that controls
-            // the slider.
-            //
-            // [handleRenderer] draws a handle for the slider. Defaults to a
-            // rectangle.
-            //
-            // [initialDomainValue] sets the initial position of the slider in
-            // domain units. The default is the center of the chart.
-            //
-            // [onChangeCallback] will be called when the position of the slider
-            // changes during a drag event.
-            //
-            // [roleId] optional custom role ID for the slider. This can be used to
-            // allow multiple [Slider] behaviors on the same chart. Normally, there can
-            // only be one slider (per event trigger type) on a chart. This setting
-            // allows for configuring multiple independent sliders.
-            //
-            // [snapToDatum] configures the slider to snap snap onto the nearest
-            // datum (by domain distance) when dragged. By default, the slider
-            // can be positioned anywhere along the domain axis.
-            //
-            // [style] takes in a [SliderStyle] configuration object, and
-            // configures the color and sizing of the slider line and handle.
             behaviors: [
               new charts.Slider(
                   snapToDatum: true,

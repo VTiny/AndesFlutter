@@ -20,6 +20,8 @@ class Color {
   static const black = const Color(r: 0, g: 0, b: 0);
   static const white = const Color(r: 255, g: 255, b: 255);
   static const transparent = const Color(r: 0, g: 0, b: 0, a: 0);
+  static const chocolate = const Color(r: 210, g: 105, b: 30, a: 0);
+  static const fireBrick = const Color(r: 178, g: 34, b: 34, a: 0);
 
   static const _darkerPercentOfOrig = 0.7;
   static const _lighterPercentOfOrig = 0.1;

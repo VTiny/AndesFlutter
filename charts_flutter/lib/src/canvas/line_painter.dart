@@ -13,10 +13,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'dart:ui' as ui show Shader;
 import 'dart:math' show Point, Rectangle;
-import 'package:flutter/material.dart';
+import 'dart:ui' as ui show Shader;
+
 import 'package:charts_common/common.dart' as common show Color;
+import 'package:charts_flutter/src/util/monotonex.dart';
+import 'package:flutter/material.dart';
 
 /// Draws a simple line.
 ///
@@ -80,6 +82,9 @@ class LinePainter {
         }
 
         _drawSolidLine(canvas, paint, points);
+
+//        _drawSmoothLine(canvas, paint, points);
+//        _paintSmoothArea(canvas, paint, points);
       } else {
         _drawDashedLine(canvas, paint, points, dashPattern);
       }
@@ -88,6 +93,36 @@ class LinePainter {
     if (clipBounds != null) {
       canvas.restore();
     }
+  }
+
+  /// Draws smooth lines between each point.
+  void _drawSmoothLine(Canvas canvas, Paint paint, List<Point> points) {
+    final path = new Path()
+      ..moveTo(points.first.x.toDouble(), points.first.y.toDouble());
+    MonotoneX.addCurve(path, points);
+    paint.color = Colors.amber;
+    canvas.drawPath(path, paint); //划线
+  }
+
+  void _paintSmoothArea(Canvas canvas, Paint paint, List<Point> points) {
+    int end = 6;
+    Point first = points[0];
+    Point last = points[end];
+    final path = new Path()
+      ..moveTo(points.first.x.toDouble(), points.first.y.toDouble());
+    MonotoneX.addCurve(path, points, endIndex: end);
+    path.lineTo(last.x.toDouble(), 250);
+    path.lineTo(first.x.toDouble(), 250);
+    paint.style = PaintingStyle.fill;
+    final Gradient gradient = LinearGradient(colors: [
+      Colors.amberAccent[100].withAlpha(80),
+      Colors.amberAccent[100].withAlpha(80),
+      Colors.amber[500].withAlpha(80)
+    ], begin: Alignment.topCenter, end: Alignment.bottomCenter);
+    paint.shader =
+        gradient.createShader(Rect.fromLTRB(first.x, 0, last.x, 250));
+    canvas.drawPath(path, paint); //填充区域
+    paint.style = PaintingStyle.stroke;
   }
 
   /// Draws solid lines between each point.
