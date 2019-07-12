@@ -44,7 +44,7 @@ class HomePageState extends BaseListPageState<HomePage, String> {
 
   @override
   List<String> generateDataList() {
-    return ['NestedScrollView demo', 'Charts demo'];
+    return ['NestedScrollView demo', 'Charts demo', 'Heating-line demo'];
   }
 
   @override
@@ -60,6 +60,9 @@ class HomePageState extends BaseListPageState<HomePage, String> {
         break;
       case 1:
         RouteUtil.pushPage(context, ROUTE_NAME_LINE_CHART_MONET);
+        break;
+      case 2:
+        RouteUtil.pushPage(context, ROUTE_NAME_HEATING_LINE_MONET);
         break;
     }
   }

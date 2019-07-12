@@ -81,10 +81,9 @@ class LinePainter {
           paint.strokeCap = StrokeCap.round;
         }
 
-        _drawSolidLine(canvas, paint, points);
-
-//        _drawSmoothLine(canvas, paint, points);
-//        _paintSmoothArea(canvas, paint, points);
+//        _drawSolidLine(canvas, paint, points);
+        _drawSmoothLine(canvas, paint, points);
+        _paintSmoothArea(canvas, paint, points);
       } else {
         _drawDashedLine(canvas, paint, points, dashPattern);
       }
@@ -121,6 +120,8 @@ class LinePainter {
     ], begin: Alignment.topCenter, end: Alignment.bottomCenter);
     paint.shader =
         gradient.createShader(Rect.fromLTRB(first.x, 0, last.x, 250));
+//    paint.shader =
+//        gradient.createShader(Rect.fromLTRB(0, 0, double.infinity, 250));
     canvas.drawPath(path, paint); //填充区域
     paint.style = PaintingStyle.stroke;
   }
